@@ -4,12 +4,14 @@ import {
   GET_PINGA_FAILURE,
   SET_PINGA,
   SET_PINGA_SUCCESS,
-  SET_PINGA_FAILURE
+  SET_PINGA_FAILURE,
+  GET_USERS_SUCCESS
 } from "../actions/";
 
 export default (
   state = {
-    pingas: {},
+    pingas: [],
+    users: [],
     isLoading: false,
     errorPinga: false
   },
@@ -34,7 +36,11 @@ export default (
         isLoading: false,
         errorPinga: action.error
       };
-
+    case GET_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.data
+      };
     default:
       return state;
   }

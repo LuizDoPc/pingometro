@@ -1,4 +1,4 @@
-import { firebaseImpl } from "../firebase/Firebase";
+import { firebaseDatabase } from "../firebase/Firebase";
 
 export const GET_PINGA = "GET_PINGA";
 export const GET_PINGA_SUCCESS = "GET_PINGA_SUCCESS";
@@ -7,6 +7,8 @@ export const GET_PINGA_FAILURE = "GET_PINGA_FAILURE";
 export const SET_PINGA = "SET_PINGA";
 export const SET_PINGA_SUCCESS = "SET_PINGA_SUCCESS";
 export const SET_PINGA_FAILURE = "SET_PINGA_FAILURE";
+
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 
 const getPinga = () => {
   return {
@@ -47,19 +49,30 @@ const setPingaFailure = error => {
   };
 };
 
-export const getPinga = () => {};
+const getUsersSuccess = data => {
+  return {
+    type: GET_USERS_SUCCESS,
+    data
+  };
+};
 
-export const setPinga = pinga => {};
+export const getPingaFirebase = () => dispatch => {
+  dispatch(getPinga());
+  try {
+    let usersRef = firebaseDatabase.ref("users");
+    usersRef.on("value", dataSnapshot => {
+      let snap = dataSnapshot.val();
+      dispatch(getUsersSuccess(snap));
+    });
+    
+    let pingaRef = firebaseDatabase.ref("pinga");
+    pingaRef.on("value", dataSnapshot => {
+      let snap = dataSnapshot.val();
+      dispatch(getPingaSuccess(snap));
+    });
+  } catch (err) {
+    dispatch(getPingaFailure(err));
+  }
+};
 
-// export const loginUser = (email, password) => dispatch => {
-//   dispatch(requestLogin());
-//   firebaseImpl
-//     .auth()
-//     .signInWithEmailAndPassword(email, password)
-//     .then(user => {
-//       dispatch(receiveLogin(user));
-//     })
-//     .catch(error => {
-//       dispatch(loginError(error));
-//     });
-// };
+export const setPingaFirebase = pinga => {};
