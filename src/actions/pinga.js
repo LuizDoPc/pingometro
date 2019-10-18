@@ -64,7 +64,7 @@ export const getPingaFirebase = () => dispatch => {
       let snap = dataSnapshot.val();
       dispatch(getUsersSuccess(snap));
     });
-    
+
     let pingaRef = firebaseDatabase.ref("pinga");
     pingaRef.on("value", dataSnapshot => {
       let snap = dataSnapshot.val();
@@ -75,4 +75,13 @@ export const getPingaFirebase = () => dispatch => {
   }
 };
 
-export const setPingaFirebase = pinga => {};
+export const setPingaFirebase = pinga => dispatch => {
+  dispatch(setPinga());
+  try {
+    let pingaRef = firebaseDatabase.ref("pinga");
+    pingaRef.set(pinga);
+    dispatch(setPingaSuccess());
+  } catch (err) {
+    dispatch(setPingaFailure(err));
+  }
+};

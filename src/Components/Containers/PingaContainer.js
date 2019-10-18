@@ -10,8 +10,20 @@ class PingaContainer extends Component {
     this.props.getPinga();
   }
 
+  updatePingas = pingas => {
+    this.props.setPinga(pingas);
+  };
+
   render() {
-    return <Pinga logoutUser={this.props.logoutUser} pingas={this.props.pingas} users={this.props.users} />;
+    return (
+      <Pinga
+        logoutUser={this.props.logoutUser}
+        pingas={this.props.pingas}
+        users={this.props.users}
+        loggedUser={this.props.user}
+        updatePingas={this.updatePingas}
+      />
+    );
   }
 }
 

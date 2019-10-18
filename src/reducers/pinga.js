@@ -41,6 +41,22 @@ export default (
         ...state,
         users: action.data
       };
+    case SET_PINGA:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case SET_PINGA_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+    case SET_PINGA_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        errorPinga: action.error
+      };
     default:
       return state;
   }
